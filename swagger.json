@@ -5,10 +5,10 @@
     "description": "Members API",
     "version": "1.0.0"
   },
-  "host": "localhost:4000",
+  "host": "https://project2-t9gb.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/api-docs": {
