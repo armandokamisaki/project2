@@ -2,23 +2,33 @@ const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
 
 const getAll = async (req, res) => {
-  const result = await mongodb.getDb().db().collection('members').find();
-  result.toArray().then((lists) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(lists);
-  });
+  try {
+    const result = await mongodb.getDb().db().collection('members').find();
+    result.toArray().then((lists) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.status(200).json(lists);
+    });
+  } catch (error) {
+    console.log(error); 
+    res.status(500).json(response.error || 'Error trying to get members.');
+  }
 };
 
 const getSingle = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     res.status(400).json('Must use a valid member id to find a member.');
   }
+  try {    
   const userId = new ObjectId(req.params.id);
   const result = await mongodb.getDb().db().collection('members').find({ _id: userId });
   result.toArray().then((lists) => {
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json(lists[0]);
   });
+} catch (error) {
+  console.log(error); 
+    res.status(500).json(response.error || 'Error trying to get member.');
+}
 };
 
 const createMember = async (req, res) => {
